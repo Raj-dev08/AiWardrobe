@@ -7,26 +7,32 @@ const wardrobeSchema = new mongoose.Schema(
             ref: "User",
             required: true 
         },
-        top:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "TopClothes",
-            required: true
-        },
-        bottom:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "BottomClothes",
-            required: true
-        },
-        shoes:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Shoes",
-            required: true
-        },
-        accessories:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Accessories",
-            required: true
-        }
+        top:[
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "TopClothes",
+                required: true
+            }
+        ],
+        bottom:[
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "BottomClothes",
+                required: true
+            }
+        ],
+        shoes:[
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Shoes",
+                required: true
+            }
+        ],
+        // accessories:{
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: "Accessories",
+        //     required: true
+        // }
     
     }
 )

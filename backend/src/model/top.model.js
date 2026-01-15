@@ -7,18 +7,14 @@ const topClothesSchema = new mongoose.Schema(
             ref: "User",
             required: true,
         },
-        tops: [
-            {
-                imageUrl:{
-                    type: String,
-                    required: true,
-                },
-                embedding:{
-                    type: [Number],
-                    required: true,
-                }
-            }
-        ]
+        imageUrl:{
+            type: String,
+            required: true,
+        },
+        embedding:{
+            type: [Number],
+            required: true,
+        }
     }
 )
 

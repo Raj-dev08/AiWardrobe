@@ -22,4 +22,6 @@ const accessoriesSchema = new mongoose.Schema(
     }
 )
 
-export const Accessories = mongoose.model("Accessories", accessoriesSchema);
+//export const Accessories = mongoose.model("Accessories", accessoriesSchema);
+
+//NOTE will not be using this as only 3 free vector search indexes allowed in mongodb free plan

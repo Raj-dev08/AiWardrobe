@@ -10,6 +10,7 @@ import { protectRoute } from "./middleware/auth.middleware.js";
 import authRoutes from "./routes/auth.routes.js";
 import previewRoutes from "./routes/preview.routes.js";
 import wardrobeRoutes from "./routes/wardrobe.routes.js";
+import suggestionRoutes from "./routes/suggestion.routes.js";
 import axios from "axios";
 
 
@@ -42,6 +43,7 @@ app.get("/api/ai/health", async (req, res, next) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/preview", protectRoute, previewRoutes);
 app.use("/api/wardrobe", protectRoute, wardrobeRoutes);
+app.use("/api/suggestions", protectRoute, suggestionRoutes);
 
 
 app.use(errorHandler)

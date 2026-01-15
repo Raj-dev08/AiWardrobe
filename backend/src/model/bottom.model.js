@@ -7,18 +7,14 @@ const bottomClothesSchema = new mongoose.Schema(
             ref: "User",
             required: true,
         },
-        bottoms: [
-            {
-                imageUrl:{
-                    type: String,
-                    required: true,
-                },
-                embedding:{
-                    type: [Number],
-                    required: true,
-                }
-            }
-        ]
+        imageUrl:{
+            type: String,
+            required: true,
+        },
+        embedding:{
+            type: [Number],
+            required: true,
+        }
     }
 )
 
