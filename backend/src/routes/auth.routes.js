@@ -6,8 +6,8 @@ const router = Router();
 
 router.post("/signup", signup);
 router.post("/login", login);
-router.get("/logout", logout);
-router.get("/check-auth", protectRoute, checkAuth);
+router.post("/logout", logout);
+router.get("/check", protectRoute, checkAuth);
 router.put("/update-expo-push-token", protectRoute, updateExpoPushToken);
 
 export default router;

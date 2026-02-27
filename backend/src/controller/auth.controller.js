@@ -103,6 +103,7 @@ export const checkAuth = (req, res,next) => {
     }
 };
 
+//no frontend calls for it not as its not actually needed but here for future use if needed
 export const updateExpoPushToken = async (req, res,next) => {
     try {
         const { user } = req
@@ -119,4 +120,4 @@ export const updateExpoPushToken = async (req, res,next) => {
         next(error)
     }
 }
-  
+

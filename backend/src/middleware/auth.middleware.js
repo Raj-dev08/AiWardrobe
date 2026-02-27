@@ -7,7 +7,7 @@ export const protectRoute = async (req, res, next) => {
 
 
         if(!authHeader || !authHeader.startsWith("Bearer ")){
-            return res.status(401).json({message: "Unauthorized -no header"});
+            return res.status(401).json({message: "Unauthorized please log in first"});
         }
 
         const token = authHeader.split(" ")[1];
