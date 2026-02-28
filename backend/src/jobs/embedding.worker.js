@@ -16,12 +16,44 @@ const embeddingsWorkerLink =
     ? `${process.env.EMBEDDINGS_WORKER_LINK}/embed-image`
     : "http://127.0.0.1:1000/embed-image";
 
+const backgroundWorkerLink =
+  process.env.EMBEDDINGS_WORKER_LINK
+    ? `${process.env.EMBEDDINGS_WORKER_LINK}/remove-background`
+    : "http://127.0.0.1:1000/remove-background";
+
+
 const embeddingsWorker = new Worker(
   "embeddings-queue",
   async (job) => {
     const { userId, image, wardrobeId } = job.data;
 
-    const uploaded = await cloudinary.uploader.upload(image);
+    const { data: backgroundRemovedData } = await axios.post(backgroundWorkerLink, {
+      image,
+    });
+
+    const backgroundRemovedImage = `data:image/jpeg;base64,${backgroundRemovedData.image_base64}`;
+    
+    const transfromation={ crop : "limit"} //typo but whatever
+    if (job.name === "processEmbeddingsForTop") {
+      transfromation.height = 495;
+      transfromation.width = 504;
+    }
+
+    else if (job.name === "processEmbeddingsForBottom") {
+      transfromation.height = 500;
+      transfromation.width = 500;
+    }
+
+    else if (job.name === "processEmbeddingsForShoes") {
+      transfromation.height = 377;
+      transfromation.width = 612;
+    }
+
+
+    const uploaded = await cloudinary.uploader.upload(
+      backgroundRemovedImage,
+      { resource_type: "image", format: "png" , transformation: transfromation}
+    );
     const imageUrl = uploaded.secure_url;
 
    
@@ -77,5 +109,5 @@ embeddingsWorker.on("completed", (job) => {
 });
 
 embeddingsWorker.on("failed", (job, err) => {
-  console.error(`Job ${job?.name} failed:`, err);
+  console.error(`Job ${job?.name} failed:`);
 });

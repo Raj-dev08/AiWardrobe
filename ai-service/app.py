@@ -1,3 +1,5 @@
+import base64
+
 import torch
 import open_clip
 import requests
@@ -5,6 +7,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from PIL import Image
 from io import BytesIO
+from rembg import remove
 
 app = FastAPI()
 
@@ -22,6 +25,24 @@ class ImageReq(BaseModel):
 class TextReq(BaseModel):
     text: str
 
+class RemoveBgReq(BaseModel):
+    image: str
+
+@app.post("/remove-background")
+def remove_background(req: RemoveBgReq):
+    if "," in req.image:
+        req.image = req.image.split(",")[1]
+
+
+    img_data = base64.b64decode(req.image)
+    image = Image.open(BytesIO(img_data))
+    output = remove(image)
+    buffer = BytesIO()
+    output.save(buffer, format="PNG")
+    buffer.seek(0)
+    encoded = base64.b64encode(buffer.getvalue()).decode("utf-8")
+    
+    return {"image_base64": encoded}
 
 @app.post("/embed-image")
 def embed_image(req: ImageReq):

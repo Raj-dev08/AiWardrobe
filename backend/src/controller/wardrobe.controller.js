@@ -78,7 +78,6 @@ export const removeClothingItem = async (req, res, next) => {
     if (!["Top", "Bottom", "Shoes"].includes(category)) {
       return res.status(400).json({ message: "Invalid category" });
     }
-
     if (category === "Top") {
       await TopClothes.findOneAndDelete({ _id: clothId , userId: user._id});
       await Wardrobe.findByIdAndUpdate(user.wardrobe, {

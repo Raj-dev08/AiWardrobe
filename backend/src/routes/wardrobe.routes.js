@@ -6,6 +6,6 @@ const router = Router();
 router.post("/", createWardrobe);
 router.get("/me", getMyWardrobe);
 router.post("/add-item", addClothingItem);
-router.post("/remove-item", removeClothingItem);
+router.delete("/remove-item/:clothId", removeClothingItem);
 
 export default router;
