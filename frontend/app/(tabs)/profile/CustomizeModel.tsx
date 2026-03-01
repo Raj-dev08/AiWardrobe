@@ -1,0 +1,214 @@
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import ColorPicker from "react-native-wheel-color-picker";
+import { usePreviewStore } from "@/store/usePreviewStore";
+import { useRouter } from "expo-router";
+
+export default function CustomizeModel() {
+  const insets = useSafeAreaInsets();
+  const {
+    previewModel,
+    fetchPreviewModel,
+    customizePreviewModel,
+    loading,
+  } = usePreviewStore();
+  const router = useRouter();
+
+  const [weight, setWeight] = useState("");
+  const [height, setHeight] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState<"male" | "female" | "other">("male");
+
+  const [chest, setChest] = useState("");
+  const [waist, setWaist] = useState("");
+  const [hips, setHips] = useState("");
+
+  const [color, setColor] = useState("rgb(255,224,189)");
+
+  useEffect(() => {
+    if (!previewModel) {
+      fetchPreviewModel();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (previewModel) {
+      setWeight(String(previewModel.weight));
+      setHeight(String(previewModel.height));
+      setAge(String(previewModel.age));
+      setGender(previewModel.gender);
+      setColor(previewModel.skinColor);
+
+      setChest(String(previewModel.measurement?.chest ?? ""));
+      setWaist(String(previewModel.measurement?.waist ?? ""));
+      setHips(String(previewModel.measurement?.hips ?? ""));
+    }
+  }, [previewModel]);
+
+  const handleSubmit = async () => {
+    if (!previewModel) return;
+
+    const payload: any = {};
+
+    if (weight) payload.weight = Number(weight);
+    if (height) payload.height = Number(height);
+    if (age) payload.age = Number(age);
+    if (gender) payload.gender = gender;
+    if (color) payload.skinColor = color;
+
+    if (chest) payload.chest = Number(chest);
+    if (waist) payload.waist = Number(waist);
+    if (hips) payload.hips = Number(hips);
+
+    const success = await customizePreviewModel(payload);
+    if (success) {
+      router.back();
+    }
+  };
+
+  if (!previewModel && loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  return (
+    <ScrollView
+      className="flex-1 bg-white"
+      contentContainerStyle={{
+        paddingTop: insets.top + 20,
+        paddingBottom: insets.bottom + 40,
+        paddingHorizontal: 20,
+      }}
+    >
+      <Text className="text-2xl font-bold mb-6">Customize Preview Model</Text>
+
+      {/* Age */}
+      <Text className="mb-1 font-semibold">Age</Text>
+      <TextInput
+        value={age}
+        onChangeText={setAge}
+        keyboardType="numeric"
+        className="border border-gray-300 rounded-lg p-3 mb-4"
+      />
+
+      {/* Height */}
+      <Text className="mb-1 font-semibold">Height (cm)</Text>
+      <TextInput
+        value={height}
+        onChangeText={setHeight}
+        keyboardType="numeric"
+        className="border border-gray-300 rounded-lg p-3 mb-4"
+      />
+
+      {/* Weight */}
+      <Text className="mb-1 font-semibold">Weight (kg)</Text>
+      <TextInput
+        value={weight}
+        onChangeText={setWeight}
+        keyboardType="numeric"
+        className="border border-gray-300 rounded-lg p-3 mb-4"
+      />
+
+      {/* Measurements */}
+      <Text className="mb-2 font-semibold">Measurements (cm)</Text>
+
+      <TextInput
+        value={chest}
+        onChangeText={setChest}
+        keyboardType="numeric"
+        placeholder="Chest"
+        className="border border-gray-300 rounded-lg p-3 mb-3"
+      />
+
+      <TextInput
+        value={waist}
+        onChangeText={setWaist}
+        keyboardType="numeric"
+        placeholder="Waist"
+        className="border border-gray-300 rounded-lg p-3 mb-3"
+      />
+
+      <TextInput
+        value={hips}
+        onChangeText={setHips}
+        keyboardType="numeric"
+        placeholder="Hips"
+        className="border border-gray-300 rounded-lg p-3 mb-6"
+      />
+
+      {/* Gender */}
+      <Text className="mb-2 font-semibold">Gender</Text>
+      <View className="flex-row mb-6">
+        {["male", "female", "other"].map((g) => (
+          <TouchableOpacity
+            key={g}
+            onPress={() => setGender(g as any)}
+            className={`mr-3 px-4 py-2 rounded-lg ${
+              gender === g ? "bg-black" : "bg-gray-200"
+            }`}
+          >
+            <Text
+              className={`${
+                gender === g ? "text-white" : "text-black"
+              } font-semibold`}
+            >
+              {g}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {/* Color Picker */}
+      <Text className="mb-2 font-semibold">Skin Color</Text>
+
+      <View className="items-center mb-4">
+        <ColorPicker
+          color={color}
+          onColorChangeComplete={(c) => setColor(c)}
+          thumbSize={30}
+          sliderSize={30}
+          noSnap
+          row={false}
+        />
+      </View>
+
+      <Text className="mb-1 font-semibold">RGB Value</Text>
+      <TextInput
+        value={color}
+        onChangeText={setColor}
+        className="border border-gray-300 rounded-lg p-3 mb-6"
+      />
+
+      <View
+        style={{ backgroundColor: color }}
+        className="h-16 rounded-lg mb-6"
+      />
+
+      {/* Submit */}
+      <TouchableOpacity
+        onPress={handleSubmit}
+        disabled={loading}
+        className="bg-black py-4 rounded-lg items-center"
+      >
+        {loading ? (
+          <ActivityIndicator color="white" />
+        ) : (
+          <Text className="text-white font-semibold text-lg">
+            Update Model
+          </Text>
+        )}
+      </TouchableOpacity>
+    </ScrollView>
+  );
+}

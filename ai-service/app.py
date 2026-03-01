@@ -37,8 +37,14 @@ def remove_background(req: RemoveBgReq):
     img_data = base64.b64decode(req.image)
     image = Image.open(BytesIO(img_data))
     output = remove(image)
+    max_width = 800
+    if output.width > max_width:
+        ratio = max_width / output.width
+        new_height = int(output.height * ratio)
+        output = output.resize((max_width, new_height), Image.LANCZOS)
+
     buffer = BytesIO()
-    output.save(buffer, format="PNG")
+    output.save(buffer, format="PNG", optimize=True, quality=80)
     buffer.seek(0)
     encoded = base64.b64encode(buffer.getvalue()).decode("utf-8")
     

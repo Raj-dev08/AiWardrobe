@@ -31,7 +31,7 @@ const embeddingsWorker = new Worker(
       image,
     });
 
-    const backgroundRemovedImage = `data:image/jpeg;base64,${backgroundRemovedData.image_base64}`;
+    const backgroundRemovedImage = `data:image/png;base64,${backgroundRemovedData.image_base64}`;
     
     const transfromation={ crop : "limit"} //typo but whatever
     if (job.name === "processEmbeddingsForTop") {
@@ -52,9 +52,10 @@ const embeddingsWorker = new Worker(
 
     const uploaded = await cloudinary.uploader.upload(
       backgroundRemovedImage,
-      { resource_type: "image", format: "png" , transformation: transfromation}
+      { resource_type: "image", format: "png" , transformation: transfromation, timeOut: 60000}
     );
     const imageUrl = uploaded.secure_url;
+
 
    
     const { data } = await axios.post(embeddingsWorkerLink, {
@@ -109,5 +110,5 @@ embeddingsWorker.on("completed", (job) => {
 });
 
 embeddingsWorker.on("failed", (job, err) => {
-  console.error(`Job ${job?.name} failed:`);
+  console.error(`Job ${job?.name} failed:` ,err);
 });

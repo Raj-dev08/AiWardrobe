@@ -11,6 +11,7 @@ import {
   useWindowDimensions
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 import { useWardrobeStore } from "@/store/useWardrobeStore";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Canvas, Image as SkiaImage, useImage } from "@shopify/react-native-skia";
@@ -82,8 +83,8 @@ export default function TopsPage() {
 
         <View style={{ flex: 1, backgroundColor: "white", alignItems: "center", justifyContent: "center" }}>
           <Canvas style={{ width: width * 0.7, height: width * 1.4 }}>
-            <SkiaImage image={mannequin} x={0} y={30} width={width * 0.7} height={width * 1.4} />
-            <SkiaImage image={topImg} x={0} y={0} width={width * 0.7} height={width * 1.4} />
+            <SkiaImage image={mannequin} x={30} y={30} width={width * 0.6} height={width * 0.8} />
+            <SkiaImage image={topImg} x={70} y={-30} width={width * 0.4} height={width * 1.1} />
           </Canvas>
         </View>
 

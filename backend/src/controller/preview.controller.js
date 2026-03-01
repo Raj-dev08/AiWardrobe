@@ -115,3 +115,18 @@ export const customizeModel = async (req,res,next) => {
         next(error)
     }
 }
+
+export const getModel = async (req,res,next) => {
+    try {
+        const { user } = req
+        const model = await previewModel.findById(user.previewModel)
+
+        if(!model){
+            return res.status(404).json({ message: 'Preview model not found' })
+        }
+
+        return res.status(200).json({ model })        
+    } catch (error) {
+        next(error)
+    }
+}

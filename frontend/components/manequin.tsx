@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
 import { View, ActivityIndicator, useWindowDimensions } from "react-native";
 import { Canvas, Image as SkiaImage, useImage } from "@shopify/react-native-skia";
+
 
 type Wardrobe = {
   _id: string;
@@ -11,6 +11,7 @@ type Wardrobe = {
 
 export default function WardrobeSkia({wardrobe } : { wardrobe: Wardrobe }) {
   const { width } = useWindowDimensions();
+
 
   const mannequin = useImage(require('../assets/images/manequin.png'));
   const topImg = useImage(
@@ -25,12 +26,14 @@ const shoesImg = useImage(
 
   if ( !mannequin || !topImg || !bottomImg || !shoesImg) return <ActivityIndicator size="large" color="#000" />;
 
+  
+
+
   return (
     <View style={{ flex: 1, backgroundColor: "white", alignItems: "center", justifyContent: "center" }}>
       <Canvas style={{ width: width * 0.7, height: width * 1.4 }}>
         {/* Mannequin */}
-        <SkiaImage image={mannequin} x={0} y={0} width={width * 0.7} height={width * 1.4} />
-
+        <SkiaImage image={mannequin} x={0} y={5} width={width * 0.7} height={width * 1.4} />
         {/* Top */}
         <SkiaImage image={topImg} x={width * 0.25} y={width * 0.4} width={width * 0.2} height={width * 0.35} />
 
