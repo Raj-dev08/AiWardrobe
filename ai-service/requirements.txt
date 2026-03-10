@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+torch
+open-clip-torch
+requests
+pillow
+rembg
+pydantic
