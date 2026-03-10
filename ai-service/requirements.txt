@@ -4,5 +4,5 @@ torch
 open-clip-torch
 requests
 pillow
-rembg
+rembg[cpu]
 pydantic
