@@ -1,7 +1,6 @@
 fastapi
 uvicorn
-torch
-open-clip-torch
+sentence-transformers
 requests
 pillow
 rembg[cpu]

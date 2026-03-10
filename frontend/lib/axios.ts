@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 const axiosInstance = axios.create({
-    baseURL: Platform.OS === "web" ? "http://localhost:5000/api" : "https://aiwardrobe-backend.onrender.com/api",
+    baseURL: Platform.OS === "web" ? "http://localhost:5000/api" : "http://10.251.175.56:5000/api",
     withCredentials: false,
 })
 
