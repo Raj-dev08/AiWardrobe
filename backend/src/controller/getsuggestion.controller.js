@@ -1,16 +1,10 @@
 import axios from "axios";
 import previewModel from "../model/preview.model.js";
-import OpenAI from "openai";
 import { TopClothes } from "../model/top.model.js";
 import { BottomClothes } from "../model/bottom.model.js";
 import { Shoes } from "../model/shoes.model.js";
 // import { Accessories } from "../model/accessories.model.js";
 
-
-const client = new OpenAI({
-	baseURL: process.env.HF_URL,
-	apiKey: process.env.HF_API_KEY,
-});
 
 const embeddingsWorkerLink =
   process.env.EMBEDDINGS_WORKER_LINK? 
@@ -134,21 +128,30 @@ export const getSuggestions = async (req, res, next) => {
                             `;
 
 
-        const chatCompletion = await client.chat.completions.create({
+        const { data } = await axios.post(
+            `${process.env.HF_URL}/chat/completions`,
+            {
             model: "zai-org/GLM-4.7:novita",
             messages: [
                 {
-                    role: "system",
-                    content: systemPrompt,
+                role: "system",
+                content: systemPrompt,
                 },
                 {
-                    role: "user",
-                    content: eventDescription,
+                role: "user",
+                content: eventDescription,
                 },
             ],
-        });
+            },
+            {
+            headers: {
+                Authorization: `Bearer ${process.env.HF_API_KEY}`,
+                "Content-Type": "application/json",
+            },
+            }
+        );
 
-        const responseMessage = chatCompletion.choices[0].message.content;
+        const responseMessage = data.choices[0].message.content;
 
         if(!responseMessage.startsWith("```json")){
             return res.status(200).json({ suggestion: responseMessage });
