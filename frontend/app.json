@@ -1,13 +1,13 @@
 {
   "expo": {
     "name": "WardrobeAI",
-    "slug": "frontend",
+    "slug": "wardrobe-ai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "frontend",
+    "scheme": "wardrobe-ai",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": false,
+    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
@@ -21,10 +21,10 @@
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
       "permissions": [
-        "CAMERA",
-        "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE",
-        "RECORD_AUDIO"
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO"
       ],
       "package": "com.raj_08dv.aiwardrobe"
     },
@@ -60,8 +60,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "c658260f-165d-45f0-9c9f-a5bb194af041"
+        "projectId": "e817192e-1c90-43ff-9acd-23ba5a641f1b"
       }
-    }
+    },
+    "owner": "raj_08dv"
   }
 }

@@ -9,6 +9,8 @@ export default function UserProfileLayout() {
       }}
     >
       <Stack.Screen name="index" />
+      <Stack.Screen name="createmodel" />
+      <Stack.Screen name="customizemodel" />
     </Stack>
   );
 }

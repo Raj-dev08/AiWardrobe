@@ -52,7 +52,7 @@ const Profile = () => {
           <TouchableOpacity
             className="bg-black py-3 px-4 rounded-lg items-center"
             onPress={() => {
-              router.push("/profile/CreateModel");
+              router.push("/profile/createmodel");
             }}
           >
             <Text className="text-white font-semibold">
@@ -90,7 +90,7 @@ const Profile = () => {
             <TouchableOpacity
               className="bg-blue-600 mt-4 py-2 px-4 rounded items-center"
               onPress={() => {
-                router.push("/profile/CustomizeModel");
+                router.push("/profile/customizemodel");
               }}
             >
               <Text className="text-white font-semibold">
