@@ -11,7 +11,6 @@ import {
   useWindowDimensions
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import * as ImageManipulator from "expo-image-manipulator";
 import { useWardrobeStore } from "@/store/useWardrobeStore";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Canvas, Image as SkiaImage, useImage } from "@shopify/react-native-skia";
