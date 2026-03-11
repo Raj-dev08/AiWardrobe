@@ -53,7 +53,7 @@ export const getSuggestions = async (req, res, next) => {
 
         if (!user.previewModel) {
             return res.status(400).json({ message: 'User does not have a preview model set up' });
-        }
+        }  
 
         const model = await previewModel.findById(user.previewModel);
 
@@ -96,42 +96,21 @@ export const getSuggestions = async (req, res, next) => {
                             }
                             Provide concise responses without any additional explanations.
                             Always respond in JSON format only.
-                            Keep the user's gender in mind while suggesting outfits.
-                            Provide trendy and fashionable suggestions.
-                            Provide gender appropriate suggestions and accessories to match the fit.  
-                            Also provide suggestions that suit the user's skin color.
-                            Provide suggestions that suit the user's age group.
-                            Provide suggestions that is good color combination too
-                            so that it looks good on the user and matches well with user's skin tone 
-                            and other accessories.
-                            Make the suggestions as per current fashion trends.
-                            Use the event description to understand the formality and type of event
-                            and suggest accordingly.
                             It is not always mandotory to provide suggestions for all four categories.
                             Suggest only the necessary clothing items based on the event description.
                             If the event is just casual that does not need accessories, then skip that.
                             But make sure to suggest at least one clothing item so User is not Naked.
                             If user wants to wear specific type of clothing, then suggest that.
                             But always follow the JSON format while giving cloth suggestions.
-                            Use the user preference if he gives any in the event description
-                            regarding style or type of clothing.
-                            Give it in json format only. Dont use any special characters outside JSON
-                            format.
-                            Make sure i can just parse the response directly as JSON.
-                            If the user provides anything except the event description, ignore that and 
-                            if no event description is provided rather the user says something like "surprise me",
-                            "give me something new", "i dont know what to wear" then give a 
-                            general answer but this time just give the response as text without JSON format.
                             ADITIONAL NOTE : For now there are no accessories in wardrobe,
                             so just suggest accessories as text in the response it wont be embedded or searched from wardrobe.
-
                             `;
 
 
         const { data } = await axios.post(
             `${process.env.HF_URL}/chat/completions`,
             {
-            model: "zai-org/GLM-4.7:novita",
+            model: "Qwen/Qwen2.5-7B-Instruct",
             messages: [
                 {
                 role: "system",
@@ -153,7 +132,7 @@ export const getSuggestions = async (req, res, next) => {
 
         const responseMessage = data.choices[0].message.content;
 
-        if(!responseMessage.startsWith("```json")){
+        if(!responseMessage.startsWith("{")){
             return res.status(200).json({ suggestion: responseMessage });
         }
         const pureText = responseMessage.slice(responseMessage.indexOf('{'), responseMessage.lastIndexOf('}') + 1);
@@ -181,6 +160,7 @@ export const getSuggestions = async (req, res, next) => {
 
         return res.status(200).json({ suggestion: payload });
     } catch (error) {
+        console.error("Error in getSuggestions:", error);
         next(error);
     }
 }
